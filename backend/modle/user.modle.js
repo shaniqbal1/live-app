@@ -1,28 +1,4 @@
-// import mongoose from "mongoose";
-// import bcrypt from "bcrypt";
 
-// const userSchema = new mongoose.Schema({
-//   name: { type: String, required: true },
-//   email: { type: String, required: true, unique: true },
-//   password: { type: String, required: true, select: false },
-//   gender: { type: String },
-//   refreshToken: { type: String } // if using refresh tokens
-// });
-
-// // ❌ Wrong: async () => {}  => next is undefined
-// // ✅ Correct: use normal function
-// userSchema.pre("save", async function (next) {
-//   if (!this.isModified("password")) return next();
-//   this.password = await bcrypt.hash(this.password, 10);
-//   next();
-// });
-
-// // Compare password method
-// userSchema.methods.comparePassword = async function (password) {
-//   return await bcrypt.compare(password, this.password);
-// };
-
-// export default mongoose.model("User", userSchema);
 
 
 import mongoose from "mongoose";

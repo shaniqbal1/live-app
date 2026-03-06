@@ -1,16 +1,16 @@
 // routes/auth.route.js
 import express from "express";
-import { register , login, verifyEmail} from "../controller/authcontroller.js";
+import { register, login, verifyEmail } from "../controller/authcontroller.js";
 
 const router = express.Router();
 
-// POST /api/auth/register → signup
+// register
 router.post("/register", register);
 
 // login
 router.post("/login", login);
 
-// varify email
+// verify email
+router.get("/verify/:token", verifyEmail);
 
-router.get("/verify/:token",verifyEmail);
 export default router;
