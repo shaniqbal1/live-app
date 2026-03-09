@@ -42,36 +42,44 @@ export const register = AsyncHandler(async(req,res,next)=>{
 
 
 // LOGIN
-export const login = AsyncHandler(async(req,res,next)=>{
+export const login = AsyncHandler(async (req, res, next) => {
+  const { email, password } = req.body;
 
-  const {email,password} = req.body;
-
-  const user = await User.findOne({email}).select("+password");
-
-  if(!user){
-    return next(new CustomError(400,"Invalid email or password"));
-  }
-
-  if(!user.isVerified){
-    return next(new CustomError(401,"Please verify your email first"));
-  }
+  const user = await User.findOne({ email }).select("+password");
+  if (!user) return next(new CustomError(400, "Invalid email or password"));
+  if (!user.isVerified) return next(new CustomError(401, "Please verify your email first"));
 
   const isMatch = await user.comparePassword(password);
-
-  if(!isMatch){
-    return next(new CustomError(400,"Invalid email or password"));
-  }
+  if (!isMatch) return next(new CustomError(400, "Invalid email or password"));
 
   const accessToken = generateToken(user._id);
   const refreshToken = generateRefreshToken(user);
 
-  res.status(200).json({
-    success:true,
-    message:"Login successful",
-    accessToken,
-    refreshToken
+
+  // Send tokens in cookies
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 60 * 60 * 1000 // 1 hour
   });
 
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Login successful",
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email
+    }
+  });
 });
 
 
@@ -97,4 +105,24 @@ export const verifyEmail = AsyncHandler(async(req,res,next)=>{
 
   res.redirect(`${process.env.CLIENT_URL}/login`);
 
+});
+
+// logout
+export const logout = AsyncHandler(async (req, res) => {
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict"
+  });
+
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict"
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Logged out successfully"
+  });
 });

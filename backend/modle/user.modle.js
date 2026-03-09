@@ -7,23 +7,43 @@ import bcrypt from "bcryptjs";
 
 
 const userSchema = new mongoose.Schema({
-  name: String,
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    trim: true
+
+  name:{
+    type:String
   },
-  password: {
-    type: String,
-    required: true
+
+  email:{
+    type:String,
+    required:true,
+    unique:true,
+    lowercase:true,
+    trim:true
   },
-   gender: {
-        type: String,
-        enum: ["male", "female", "other"],
-        required: true
-    }
+
+  password:{
+    type:String,
+    select:false
+  },
+
+  gender:{
+    type:String,
+    enum:["male","female","other"],
+    required:true
+  },
+
+  isVerified:{
+    type:Boolean,
+    default:false
+  },
+
+  googleId:String,
+
+  provider:{
+    type:String,
+    enum:["local","google"],
+    default:"local"
+  }
+
 });
 
 // Hash password before saving
