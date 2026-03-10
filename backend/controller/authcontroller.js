@@ -126,3 +126,29 @@ export const logout = AsyncHandler(async (req, res) => {
     message: "Logged out successfully"
   });
 });
+
+// Google OAuth Callback
+export const googleCallback = AsyncHandler(async (req, res) => {
+  const user = req.user;
+  
+  const accessToken = generateToken(user._id);
+  const refreshToken = generateRefreshToken(user);
+
+  // Set cookies
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 60 * 60 * 1000 // 1 hour
+  });
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  });
+
+  // Redirect to frontend with access token
+  res.redirect(`${process.env.CLIENT_URL || "http://localhost:5173"}/google?accessToken=${accessToken}`);
+});

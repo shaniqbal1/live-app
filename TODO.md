@@ -1,19 +1,9 @@
-# TODO - Registration Page Optimization
+# Google Auth Fix - TODO List
 
-## Task: Make registration page perfect and shorter
-
-### Steps:
-- [x] 1. Analyze current registration page
-- [x] 2. Refactor Register.jsx with compact layout
-- [x] 3. Update Auth.css for new compact styles
-- [ ] 4. Test the changes
-
-### Changes implemented:
-1. ✅ Two-column layout for name/email and password fields
-2. ✅ Compact gender selection (smaller cards)
-3. ✅ Simplified password strength (removed detailed requirements list)
-4. ✅ Added password visibility toggle
-5. ✅ Reduced spacing between form elements
-6. ✅ Reduced card padding
-7. ✅ Reduced header/footer margins
+## Tasks:
+- [x] 1. Update backend/config/passport.js - Add serializeUser and deserializeUser methods
+- [x] 2. Update backend/routes/auth.routes.js - Add Google OAuth routes
+- [x] 2b. Update backend/controller/authcontroller.js - Add googleCallback function
+- [x] 3. Update backend/app.js - Initialize passport and import config
+- [x] 4. Update frontend/src/component/google.button.jsx - Fix the URL
 

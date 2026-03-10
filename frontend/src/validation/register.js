@@ -7,4 +7,4 @@ const registerUserSchema = z.object({
   gender: z.enum(["male","female","other"])
 })
 
-export default registerUserSchema;
+export { registerUserSchema };

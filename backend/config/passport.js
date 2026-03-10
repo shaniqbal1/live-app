@@ -22,8 +22,10 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
               googleId: profile.id,
               provider: "google",
               firstName: profile.name.givenName,
+              lastName: profile.name.familyName,
               email: email,
               gender: "other",
+              isVerified: true, // Google users are already verified
             });
           }
 
@@ -37,4 +39,20 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   );
 }
 
+// Serialize user to store in session
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+// Deserialize user from session
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
+
 export { passport };
+
