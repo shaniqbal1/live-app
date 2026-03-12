@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../modle/user.modle.js";
+import User from "../model/user.model.js";
 import CustomError from "../handler/coustomError.js";
 import AsyncHandler from "../handler/async-handler.js";
 

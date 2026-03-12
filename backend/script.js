@@ -1,18 +1,41 @@
-// const { createServer } = require('node:http');
-// import {Server} from "socket.io";
 import dotenv from "dotenv";
 dotenv.config();
-import connectDB from "./config/db.config.js"; // adjust path if needed
-connectDB();
-
-import mongoose from "mongoose";
 import app from "./app.js";
+import ConnectDB from "./config/db.config.js";
+import chalk from "chalk";
+import http from "http";
+import { Server } from "socket.io";
 
-mongoose.connect(process.env.MONGO_URI).then(()=>{
-    console.log("Database connected");
-    app.listen(process.env.PORT || 8080, ()=>{
-        console.log("Server running on port", process.env.PORT || 8080);
-    });
-}).catch(err=>{
-    console.error(err);
+const httpServer = http.createServer(app);
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:5173", // your frontend
+    methods: ["GET", "POST"]
+  }
+});
+
+// socket connection
+io.on("connection", (socket) => {
+  console.log("New user connected:", socket.id);
+
+  socket.on("send_message", (data) => {
+    console.log("Message received:", data);
+
+    // send message to all users
+    io.emit("receive_message", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
+
+const PORT = process.env.PORT || 8000;
+
+// ✅ Connect DB BEFORE starting server
+await ConnectDB();
+
+httpServer.listen(PORT, () => {
+  console.log(chalk.bgGreen.bold(`Server + Socket + DB running on http://localhost:${PORT}`));
 });

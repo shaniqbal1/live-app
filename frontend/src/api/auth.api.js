@@ -1,18 +1,10 @@
-import { api } from "./axiosinstance"
+import { api } from "./axiosinstance";
 
-const userApi = {
-    register: (data) => {
-        return api.post("/register", data)
-    },
-    login: (data)=>{
-        return api.post("/login" , data)
-    } , 
-    refreshToken:()=>{
-        return api.post("/refresh-token");
-    } ,
-    logout:()=>{
-        return api.get("/logout");
-    }
-}
+const authApi = {
+  register: (data) => api.post("/register", data), // if your backend route is /auth/register, update baseURL
+  login: (data) => api.post("/login", data),
+  refreshToken: () => api.post("/refresh-token"),
+  logout: () => api.get("/logout")
+};
 
-export {userApi as authApi, userApi};
+export { authApi };

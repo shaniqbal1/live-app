@@ -1,13 +1,12 @@
 import AsyncHandler  from "../handler/async-handler.js";
 import CustomError from "../handler/coustomError.js";
-import User from "../modle/user.modle.js";
+import User from "../model/user.model.js";
 import {generateToken, generateRefreshToken } from "../utiles/token.js"
 import { generateVerifyToken } from "../utiles/verifytoken.js";
 import sendEmail from "../utiles/email.js";
 import jwt from "jsonwebtoken";
-
 // REGISTER
-export const register = AsyncHandler(async(req,res,next)=>{
+export const register = AsyncHandler (async(req,res,next)=>{
 
   const {name,email,password,gender} = req.body;
 
@@ -127,28 +126,33 @@ export const logout = AsyncHandler(async (req, res) => {
   });
 });
 
-// Google OAuth Callback
-export const googleCallback = AsyncHandler(async (req, res) => {
-  const user = req.user;
-  
-  const accessToken = generateToken(user._id);
-  const refreshToken = generateRefreshToken(user);
 
-  // Set cookies
-  res.cookie("accessToken", accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 60 * 60 * 1000 // 1 hour
-  });
+// googleauthcallback 
 
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-  });
+ const googleAuthCallback =  AsyncHandler (async(req,res)=>{
+         try {
+             const user  = req.user
 
-  // Redirect to frontend with access token
-  res.redirect(`${process.env.CLIENT_URL || "http://localhost:5173"}/google?accessToken=${accessToken}`);
-});
+            //  generate tokens 
+            const accessToken = generateAcccessToken(user);
+            const refreshToken = generateRefreshToken(user);
+
+            // store refresh toeken in db
+            user.refreshToken = [{token:refreshToken , createdAt:new Date()}];
+            await user.save();
+
+            // store refresjh token in cookies 
+
+            res.cookie("refreshToken" , refreshToken, CookieOptions);
+            
+            res.redirect(`http://localhost:5173/auth/success?accesstoken=${accessToken}`);
+
+         } catch (error) {
+            // this is error message  => %sdf$
+            res.redirect(`http://localhost:5173/auth/failure?error=${encodeURIComponent(error.message)}`)
+            
+         }
+ })
+
+
+ export { googleAuthCallback};

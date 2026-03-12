@@ -1,8 +1,18 @@
+// mongoose    npm i 
+import chalk from "chalk";
 import mongoose from "mongoose";
 
-const connectDB = async () => {
-  await mongoose.connect(process.env.MONGO_URI);
-  console.log("Database connected");
-};
 
-export default connectDB;
+async function ConnectDB(){
+   try {
+     const connectionInstance = await mongoose.connect(process.env.MONGO_URI);
+     console.log(chalk.bgBlue.bold(`Database connect on host ${connectionInstance.connection.host} and port ${connectionInstance.connection.port}`))
+   } catch (error) {
+     console.log("Failed to connect database due to error  ->  " , error)
+     process.exit(1)
+   }
+    
+}
+
+
+export default ConnectDB;

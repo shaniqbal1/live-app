@@ -1,8 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Register from "./pages/register.jsx"
 import Login from "./pages/login.jsx";
-import GoogleAuth from "./pages/google.autj.jsx";
 import App from "./App.jsx";
+import ChatPage from "./pages/chat.jsx";
 
 const router = createBrowserRouter([
     {
@@ -11,8 +11,9 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Navigate to="/login" replace />
+                element: <Navigate to="/register" replace />
             },
+
             {
                 path:'/register',
                 element:<Register/>
@@ -22,13 +23,9 @@ const router = createBrowserRouter([
                 element:<Login/>
             }, 
             {
-               path:"/auth/success",
-               element:<GoogleAuth/>
-            },
-            {
-               path:"/auth/failure",
-               element:<GoogleAuth/>
-            }, 
+                path:"/chat",
+                element:<ChatPage />
+            }
         ]
     }
    

@@ -1,9 +1,9 @@
 // routes/auth.route.js
 import express from "express";
-import passport from "passport";
-import { register, login, verifyEmail, logout, googleCallback } from "../controller/authcontroller.js";
-
+import { passport } from "../config/passport.js";
+import { register, login, verifyEmail, logout, googleAuthCallback } from "../controller/authcontroller.js";
 const router = express.Router();
+
 
 // register
 router.post("/register", register);
@@ -17,14 +17,12 @@ router.get("/verify/:token", verifyEmail);
 //logout
 router.get("/logout", logout);
 
-// Google OAuth routes
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+// google oauth
+// /api/v1/auth/google
+router.route("/google").get(passport.authenticate("google" ,{scope:["profile" , "email"]}));
 
-router.get(
-  "/google/callback",
-  passport.authenticate("google", { session: false, failureRedirect: "/login?error=google_auth_failed" }),
-  googleCallback
-);
+// api/v1/auth/google/callback
+router.route("/google/callback").get(passport.authenticate("google" , { session:false , failureRedirect:"http://localhost:5173/auth/failure"}), googleAuthCallback)
 
 export default router;
 

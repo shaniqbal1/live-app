@@ -1,9 +1,9 @@
-# Google Auth Fix - TODO List
+# Backend MongoDB Fix Progress
 
-## Tasks:
-- [x] 1. Update backend/config/passport.js - Add serializeUser and deserializeUser methods
-- [x] 2. Update backend/routes/auth.routes.js - Add Google OAuth routes
-- [x] 2b. Update backend/controller/authcontroller.js - Add googleCallback function
-- [x] 3. Update backend/app.js - Initialize passport and import config
-- [x] 4. Update frontend/src/component/google.button.jsx - Fix the URL
+## Plan Steps:
+- [x] Create `backend/.env` with MONGO_URI and other essential vars
+- [x] Restart backend server and verify DB connection (success: "Database connect on host localhost and port 27017")
+- [ ] Test full app (auth, chat, etc.)
+- [ ] Handle any remaining issues (e.g., MongoDB service, Google OAuth setup)
 
+Backend server is running successfully on http://localhost:8000 with DB connected.

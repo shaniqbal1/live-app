@@ -1,18 +1,20 @@
+import React from 'react'
+
 const GoogleButton = () => {
   function handleClick() {
-    window.location.href = "http://localhost:8080/api/auth/google"
+    window.location.href = "http://localhost:8000/api/auth/google"
   }
 
   return (
     <button
       onClick={handleClick}
-      className="w-full flex items-center justify-center px-6 py-5 border-2 border-gray-200 rounded-xl bg-white text-base font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-300 group relative overflow-hidden"
+      className="w-full flex items-center justify-center px-14 py-6 border-2 border-gray-200 rounded-2xl bg-white text-2xl font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-300 group relative overflow-hidden"
     >
       {/* Hover Background Effect */}
       <span className="absolute inset-0 bg-gradient-to-r from-indigo-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
       
       {/* Google Icon */}
-      <svg className="w-6 h-6 mr-3 relative z-10 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 mr-4 relative z-10 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24">
         <path
           fill="#4285F4"
           d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -35,7 +37,7 @@ const GoogleButton = () => {
       
       {/* Arrow Icon */}
       <svg 
-        className="w-5 h-5 ml-2 relative z-10 transition-transform duration-300 group-hover:translate-x-1" 
+        className="w-6 h-6 ml-3 relative z-10 transition-transform duration-300 group-hover:translate-x-1" 
         fill="none" 
         stroke="currentColor" 
         viewBox="0 0 24 24"
