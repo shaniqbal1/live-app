@@ -219,7 +219,7 @@ export const verifyEmail = AsyncHandler(async (req, res, next) => {
   // Generate tokens like login
   const accessToken = generateToken(user._id);
   const refreshToken = generateRefreshToken(user);
-
+ //abc
   // Send tokens in cookies (same as login)
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
