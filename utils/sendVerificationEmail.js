@@ -11,8 +11,8 @@ export const sendVerificationEmail = async (userId, email, verificationToken) =>
       }
     });
 
-    // ✅ Verification link
-    const verifyUrl = `http://localhost:5173/verify-email/${verificationToken}`;
+    // ✅ Direct Backend verification link - NO intermediate page
+const verifyUrl = `http://localhost:5173/verify-email/${verificationToken}`;
 
       // ✅ Simple Plain Email HTML Template (Reverted)
       const html = `<!DOCTYPE html>

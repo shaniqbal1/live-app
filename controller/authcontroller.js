@@ -254,7 +254,7 @@ export const verifyEmailToken = AsyncHandler(async (req, res, next) => {
     const { token } = req.params;
 
     if (!token) {
-      return res.redirect(`http://localhost:5173/login?error=invalid_token`);
+      return res.status(400).json({ success: false, message: "Verification token is required" });
     }
 
     console.log('🔍 Verifying token:', token ? `${token.slice(0,8)}...` : 'missing');
@@ -263,10 +263,10 @@ export const verifyEmailToken = AsyncHandler(async (req, res, next) => {
       isVerified: false,
       verificationTokenExpires: { $gt: new Date() }
     }).select("+password");
-    console.log('👤 User found:', user ? user.email : 'none');
+    console.log('👤 User found for direct verify:', user ? user.email : 'none');
 
     if (!user) {
-      return res.redirect(`http://localhost:5173/login?error=invalid_or_expired_token`);
+res.redirect(`http://localhost:5173/login?error=invalid-token`);
     }
 
     // Mark as verified
@@ -274,13 +274,8 @@ export const verifyEmailToken = AsyncHandler(async (req, res, next) => {
     user.verificationToken = undefined;
     await user.save();
 
-    // Redirect to success
-    res.redirect(`http://localhost:5173/login?verified=true`);
-  } catch (error) {
-    console.error('Verify email token error:', error);
-    res.redirect(`http://localhost:5173/login?error=verification_failed`);
-  }
-});
+    // Redirect to success\n    res.redirect("http://localhost:5173/login");\n  }
+  } catch (error) {   console.error('Verify email token error:', error);    res.redirect("http://localhost:5173/login");  }});
 
 // googleauthcallback 
 
