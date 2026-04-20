@@ -118,4 +118,4 @@ dist
 .pnp.*
 .env
 backend/.env
-# End of https://mrkandreev.name/snippets/gitignore-generator/#Node
+# End of https://mrkandreev.name/snippets/gitignore-generator/#Node.env
